@@ -1,16 +1,19 @@
 Class - |classname|
 ===================
 
-.. TODO:: Need class description
-
 This class covers the following topics:
 
-- Downloading a |f5| |bip| |ve|
-- Installing a |bip| |ve| image on a hypervisor
-- Installing a |f5| |bip| Appliance
-- Powering on a |bip| Appliance
+- Metaploit Overview
+- Useful tools
+- Capture the Flag Challenge
 
 Expected time to complete: **3 hours**
+
+Class Environment:
+------------------
+
+..  image:: /_static/lab_environment.png
+
 
 .. toctree::
    :maxdepth: 1

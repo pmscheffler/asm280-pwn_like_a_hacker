@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 #
-# BEGIN CONFIG
+# BEGIN CONFIG/Users/skibo/Documents/Github/asm280-pwn_like_a_hacker/docs/conf.py
 # ------------
 #
 # REQUIRED: Your class/lab name

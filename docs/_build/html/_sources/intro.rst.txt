@@ -1,7 +1,6 @@
 Getting Started
 ---------------
 
-.. TODO:: Complete getting started instructions
 
 Please follow the instructions provided by the instructor to start your
 lab and access your jump host.
@@ -11,38 +10,54 @@ lab and access your jump host.
 	 jumphost. No installation or interaction with your local system is
 	 required.
 
-Lab Topology
-~~~~~~~~~~~~
 
-.. TODO:: Complete lab topology
+Accessing the Class Resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following components have been included in your lab environment:
+The class is running in a self-contained virtual/cloud environment. To
+access the resources a Windows 7 Jumpbox has been provided for the
+Student to RDP to and then access the required devices. You will be
+provided with an IP address of the Windows 7 Jumpbox when needed.
+(Username: external\_user / Password: 401elliottW! ) You will also be
+provided the external IP address of the Kali Linux server which you will
+need for one of the labs.
 
-- 2 x F5 BIG-IP VE (v12.1)
-- 1 x F5 iWorkflow VE (v2.1)
-- 1 x Linux LAMP Webserver (xubuntu 14.04)
-- 1 x Windows Jumphost
+Network Resources
 
-Lab Components
-^^^^^^^^^^^^^^
-
-.. TODO:: Complete lab components table
-
-The following table lists VLANS, IP Addresses and Credentials for all
-components:
-
-.. list-table::
-    :widths: 20 40 40
-    :header-rows: 1
-    :stub-columns: 1
-
-    * - **Component**
-      - **VLAN/IP Address(es)**
-      - **Credentials**
-    * - Sample Host
-      - - **Management:** 10.1.1.250
-        - **Internal:** 10.1.10.250
-        - **External:** 10.1.20.250
-      - ``admin``/``admin``
-
-
++--------------------------+---------------+--------------+------------------------------------------+
+|                          | IP Address    | Network      | URL                                      |
++==========================+===============+==============+==========================================+
+| Win 7 Client             | 10.1.10.90    | External     |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| Win 7 Client             | 10.1.1.90     | Management   |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| KALI Linux               | 10.1.10.240   | External     |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| F5 BIG-IP                | 10.1.10.245   | External     |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| F5 BIG-IP                | 10.1.1.245    | Management   |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| F5 BIG-IP                | 10.1.20.245   | Internal     |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| Taxi App (unprotected)   | 10.1.10.131   | External     | http://taxiapp-unprotected.f5lab.biz     |
++--------------------------+---------------+--------------+------------------------------------------+
+| Taxi App                 | 10.1.10.132   | External     | http://taxiapp.f5lab.biz                 |
+| (protected)              |               |              |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| Hackazon (unprotected)   | 10.1.10.120   | External     | https://webstore-unprotected.f5lab.biz   |
++--------------------------+---------------+--------------+------------------------------------------+
+| Hackazon                 | 10.1.10.115   | External     | http://webstore.f5lab.biz                |
+| (protected)              |               |              |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| DVWA                     | 10.1.10.35    | External     | https://dvwa.f5lab.biz                   |
++--------------------------+---------------+--------------+------------------------------------------+
+| HR Site                  | 10.1.10.101   | External     | https://hr.f5lab.biz                     |
++--------------------------+---------------+--------------+------------------------------------------+
+| Intranet Site            | 10.1.10.102   | External     | https://accounts.f5lab.biz               |
++--------------------------+---------------+--------------+------------------------------------------+
+| Struts2                  | 10.1.10.50    | External     | https://struts2.f5lab.biz                |
+| (unprotected)            |               |              |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
+| Struts2                  | 10.1.10.51    | External     | https://struts2-protected.f5lab.biz      |
+| (protected)              |               |              |                                          |
++--------------------------+---------------+--------------+------------------------------------------+
